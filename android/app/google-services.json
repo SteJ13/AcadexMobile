@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "676867901185",
+    "project_id": "acadex-1346b",
+    "storage_bucket": "acadex-1346b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:676867901185:android:d63ef9cdbb7f6b4ec73d00",
+        "android_client_info": {
+          "package_name": "com.acadex"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJBj715ZgA7Hlm-hq5-MOZDLq_qnooP0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
