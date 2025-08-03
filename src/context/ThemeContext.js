@@ -6,11 +6,13 @@ const themes = {
         background: '#ffffff',
         text: '#000000',
         primary: '#007bff',
+        card: '#f9f9f9',
     },
     dark: {
         background: '#000000',
         text: '#ffffff',
         primary: '#1e90ff',
+        card: '#1c1c1e',
     },
 };
 

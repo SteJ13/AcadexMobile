@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Switch, StyleSheet } from 'react-native';
 import { useTheme } from '../context/ThemeContext';
-import { useStyles } from '../hooks/useStyles';
+import useStyles from '../hooks/useStyles';
 
 const ProfileScreen = () => {
     const { theme, themeMode, setThemeMode } = useTheme();
