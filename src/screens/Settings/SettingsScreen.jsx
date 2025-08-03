@@ -1,14 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, Switch, TouchableOpacity } from 'react-native';
 import { useTheme } from '@context/ThemeContext';
-import { useStyles } from '@hooks/useStyles';
+import useStyles from '@hooks/useStyles';
 import { useNavigation } from '@react-navigation/native';
 
 const SettingsScreen = () => {
-    const { theme, themeMode, setThemeMode } = useTheme();
+    const { theme, isDarkMode, setThemeMode } = useTheme();
     const navigation = useNavigation();
 
-    const isDark = themeMode === 'dark';
 
     const styles = useStyles((theme) =>
         StyleSheet.create({
@@ -51,10 +50,10 @@ const SettingsScreen = () => {
             <View style={styles.card}>
                 <Text style={styles.title}>Dark Theme</Text>
                 <Switch
-                    value={isDark}
-                    onValueChange={() => setThemeMode(isDark ? 'light' : 'dark')}
+                    value={isDarkMode}
+                    onValueChange={() => setThemeMode(isDarkMode ? 'light' : 'dark')}
                     trackColor={{ false: '#ccc', true: theme.primary }}
-                    thumbColor={isDark ? '#f4f3f4' : '#f4f3f4'}
+                    thumbColor={isDarkMode ? '#f4f3f4' : '#f4f3f4'}
                 />
             </View>
 

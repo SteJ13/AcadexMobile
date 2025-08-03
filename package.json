@@ -19,6 +19,7 @@
     "react-native-reanimated": "^4.0.1",
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.13.1",
+    "react-native-svg": "^15.12.1",
     "react-native-worklets": "^0.4.1"
   },
   "devDependencies": {
@@ -35,6 +36,7 @@
     "@types/jest": "^29.5.13",
     "@types/react": "^19.0.0",
     "@types/react-test-renderer": "^19.0.0",
+    "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
     "prettier": "2.8.8",
