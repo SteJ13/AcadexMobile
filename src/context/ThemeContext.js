@@ -3,15 +3,21 @@ import { Appearance } from 'react-native';
 
 const themes = {
     light: {
-        background: '#ffffff',
-        text: '#000000',
+        appBackground: '#8338b4',
+        appText: '#edb232',
+        light: '#ffffff',
+        dark: '#000000',
+        textLight: '#ffffff',
         primary: '#007bff',
         card: '#f9f9f9',
         screenHeaderBackground: '#F9F9FB',
     },
     dark: {
-        background: '#000000',
-        text: '#ffffff',
+        appBackground: '#4bc883',
+        appText: '#324bed',
+        light: '#000000',
+        dark: '#ffffff',
+        textLight: '#000000',
         primary: '#1e90ff',
         card: '#1c1c1e',
         screenHeaderBackground: '#1C1C1E',

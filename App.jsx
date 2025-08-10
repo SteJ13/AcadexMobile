@@ -4,6 +4,8 @@ import { ThemeProvider } from './src/context/ThemeContext'
 import RootNavigator from './src/navigation/RootNavigator'
 import { NavigationContainer } from '@react-navigation/native'
 import { requestUserPermission } from './notifications'
+import { AuthProvider } from '@context/AuthContext';
+import { ToastProvider } from '@context/ToastContext';
 
 export default function App() {
 
@@ -43,9 +45,15 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
+      <AuthProvider>
+        <ToastProvider>
+
+          <NavigationContainer>
+            <RootNavigator />
+          </NavigationContainer>
+
+        </ToastProvider>
+      </AuthProvider>
     </ThemeProvider>
   )
 }
