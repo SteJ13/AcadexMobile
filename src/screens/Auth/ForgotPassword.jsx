@@ -5,6 +5,7 @@ import LockIcon from '@assets/icons/LockIcon'
 import EmailIcon from '@assets/icons/EmailIcon'
 import { useNavigation } from '@react-navigation/native'
 import { useToast } from '@context/ToastContext'
+import GradientButton from '@components/FormControls/GradientButton'
 
 export default function ForgotPassword() {
     const styles = useStyles((theme) =>
@@ -60,32 +61,13 @@ export default function ForgotPassword() {
                 color: theme.light,
                 fontSize: 16,
             },
-            resetButton: {
-                backgroundColor: theme.appBackground,
-                borderRadius: 50,
-                paddingVertical: 15,
-                paddingHorizontal: 30,
-                marginVertical: 10,
-                shadowColor: "#000",
-                shadowOpacity: 0.25,
-                shadowOffset: { width: 0, height: 4 },
-                shadowRadius: 5,
-                elevation: 5,
-                borderTopWidth: 1,
-                borderTopColor: "rgba(255,255,255,0.4)",
-                marginBottom: 50,
-            },
+
             linkContainer: {
                 paddingVertical: 12,
                 paddingHorizontal: 20,
                 backgroundColor: "#007AFF",
                 borderRadius: 8,
                 alignItems: "center",
-            },
-            resetText: {
-                color: "#fff",
-                fontSize: 16,
-                textAlign: "center",
             },
             linkText: {
                 color: theme.light,
@@ -160,9 +142,7 @@ export default function ForgotPassword() {
                         autoCapitalize="none"
                     />
                 </View>
-                <TouchableOpacity onPress={handleResetPassword} disabled={loading} style={[styles.resetButton, loading && { opacity: 0.6 }]}>
-                    <Text style={styles.resetText}>Reset Password</Text>
-                </TouchableOpacity>
+                <GradientButton title="Reset Password" onPress={handleResetPassword} loading={loading} />
                 <TouchableOpacity onPress={() => navigation.navigate("Login")} >
                     <Text style={styles.linkText}>Back to Login</Text>
                 </TouchableOpacity>
