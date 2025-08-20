@@ -1,63 +1,46 @@
-import useStyles from '@hooks/useStyles';
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import Svg, { Rect, Defs, LinearGradient, Stop } from 'react-native-svg';
+import { Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { gradientFromBase, shade } from '@utils/color';
+import useStyles from '@hooks/useStyles';
 
-export default function GradientButton({ onPress, title, loading = false }) {
-    const styles = useStyles((theme) =>
-        StyleSheet.create({
-            buttonWrapper: {
-                width: '100%',
-                height: 60,
-                borderRadius: 30,
-                overflow: 'hidden',
-                justifyContent: 'center',
-                alignItems: 'center',
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 5 },
-                shadowOpacity: 0.3,
-                shadowRadius: 8,
-                elevation: 5,
-            },
-            text: {
-                color: theme.light,
-                fontSize: 18,
-                fontWeight: '600',
-            },
-        }));
+const GradientButton = ({ label, onPress, disabled, style }) => {
+  const styles = useStyles((theme) =>
+    StyleSheet.create({
+      wrap: { borderRadius: 28, overflow: 'hidden' },
+      gradient: {
+        height: 56,
+        borderRadius: 28,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      label: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
+      disabled: { opacity: 0.6 },
+      shadow: Platform.select({
+        ios: { shadowColor: '#000', shadowOpacity: 0.1, shadowRadius: 10, shadowOffset: { width: 0, height: 6 } },
+        android: { elevation: 6 },
+      }),
+    })
+  );
 
-    return (
-        <TouchableOpacity
-            style={styles.buttonWrapper}
-            onPress={onPress}
-            disabled={loading}
-            activeOpacity={0.8}
-        >
-            <Svg height="60" width="300" style={StyleSheet.absoluteFill}>
-                <Defs>
-                    <LinearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
-                        <Stop offset="0" stopColor="#c489e8" stopOpacity="1" />
-                        <Stop offset="1" stopColor="#732b9e" stopOpacity="1" />
-                    </LinearGradient>
-                </Defs>
-                <Rect
-                    x="0"
-                    y="0"
-                    rx="30"
-                    ry="30"
-                    width="300"
-                    height="60"
-                    fill="url(#grad)"
-                    stroke="#b0d2c2"
-                    strokeWidth="2"
-                />
-            </Svg>
-            {loading ? (
-                <ActivityIndicator size="small" color="#fff" />
-            ) : (
-                <Text style={styles.text}>{title}</Text>
-            )}
-        </TouchableOpacity>
-    );
-}
+  const colors = useStyles((theme) =>
+    disabled
+      ? [shade('#D0D0D0', 10), shade('#B5B5B5', -5)]
+      : gradientFromBase(theme.appBackground)
+  );
 
+  return (
+    <TouchableOpacity
+      activeOpacity={0.85}
+      onPress={onPress}
+      disabled={disabled}
+      style={[styles.wrap, styles.shadow, style, disabled && styles.disabled]}
+    >
+      <LinearGradient colors={colors} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.gradient}>
+        <Text style={styles.label}>{label}</Text>
+      </LinearGradient>
+    </TouchableOpacity>
+  );
+};
+
+export default GradientButton;

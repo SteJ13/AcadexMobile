@@ -11,6 +11,7 @@ const themes = {
         primary: '#007bff',
         card: '#f9f9f9',
         screenHeaderBackground: '#F9F9FB',
+        inputPlaceHolderIcon: '#ab7cca'
     },
     dark: {
         appBackground: '#4bc883',
@@ -21,6 +22,7 @@ const themes = {
         primary: '#1e90ff',
         card: '#1c1c1e',
         screenHeaderBackground: '#1C1C1E',
+        inputPlaceHolderIcon: '#ab7cca'
     },
 };
 
