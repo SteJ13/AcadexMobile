@@ -8,6 +8,7 @@ import useStyles from '@hooks/useStyles';
 import UserIcon from '@assets/icons/UserIcon';
 import { useForm } from 'react-hook-form';
 import RadioGroup from '@components/FormControls/RadioGroup';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Login() {
     const styles = useStyles((theme) =>
@@ -25,10 +26,11 @@ export default function Login() {
     );
 
     const toast = useToast();
+    const navigation = useNavigation();
     const { control, getValues, formState: { isValid }, trigger } = useForm({ mode: 'onChange' });
     console.log('isValid: ', isValid);
     const [currentScreen, setCurrentScreen] = React.useState('');
-            console.log('data: ', getValues());
+    console.log('data: ', getValues());
 
     const handleSearch = () => {
         if (isValid) {
@@ -63,7 +65,7 @@ export default function Login() {
                         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                         <GradientButton
                             label="Submit"
-                            // onPress={handleSearch}
+                            onPress={() => navigation.navigate('ForgotPassword')}
                         />
                     </>
                 }
@@ -90,7 +92,7 @@ export default function Login() {
                         <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
                         <GradientButton
                             label="Submit"
-                            // onPress={handleSearch}
+                            onPress={() => navigation.navigate('ForgotPassword')}
                         />
                     </>
                 }
