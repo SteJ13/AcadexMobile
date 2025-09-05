@@ -32,8 +32,8 @@ const RadioGroup = ({
         paddingVertical: 12,
         paddingHorizontal: 16,
         marginBottom: 8,
-        width: '90%',
-        marginLeft: 12, // aligns all options
+        width: '100%',
+        backgroundColor: '#FFFFFF',
       },
       selectedOption: {
         borderColor: theme.primary,
@@ -56,13 +56,13 @@ const RadioGroup = ({
       optionText: {
         marginLeft: 12,
         fontSize: 16,
-        color: theme.light,
+        color: '#333333',
       },
       errorText: {
         color: 'red',
         fontSize: 14,
         marginTop: 4,
-        marginLeft: 12, // same indent as options
+        marginLeft: 0,
       },
     })
   );

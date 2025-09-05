@@ -129,3 +129,8 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+project.ext.react = [
+    entryFile: "index.js",
+    enableHermes: true  // <- ENABLE THIS
+]

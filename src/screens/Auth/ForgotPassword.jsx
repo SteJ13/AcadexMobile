@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
 import useStyles from '@hooks/useStyles'
 import LockIcon from '@assets/icons/LockIcon'
@@ -31,25 +31,25 @@ export default function ForgotPassword() {
                 color: theme.dark,
                 fontSize: 16,
                 textAlign: 'center',
+                marginTop: 10,
             },
             emailLabel: {
                 color: theme.light,
                 fontSize: 16,
-                marginBottom: 5,
+                marginBottom: 8,
                 alignSelf: 'flex-start',
-                width: '80%',
-                paddingLeft: 10,
+                width: '100%',
             },
             inputContainer: {
                 flexDirection: 'row',
                 alignItems: 'center',
                 borderColor: theme.light,
                 borderWidth: 1,
-                borderRadius: 50,
+                borderRadius: 25,
                 marginBottom: 20,
                 width: '100%',
                 backgroundColor: theme.appBackground,
-                paddingHorizontal: 10,
+                paddingHorizontal: 15,
                 height: 50,
             },
             inputIcon: {
@@ -60,14 +60,6 @@ export default function ForgotPassword() {
                 flex: 1,
                 color: theme.light,
                 fontSize: 16,
-            },
-
-            linkContainer: {
-                paddingVertical: 12,
-                paddingHorizontal: 20,
-                backgroundColor: "#007AFF",
-                borderRadius: 8,
-                alignItems: "center",
             },
             linkText: {
                 color: theme.light,
@@ -83,6 +75,7 @@ export default function ForgotPassword() {
                 backgroundColor: theme.light,
                 borderTopLeftRadius: 24,
                 borderTopRightRadius: 24,
+                paddingHorizontal: 20,
             },
             bottomView: {
                 flex: 1,
@@ -91,7 +84,7 @@ export default function ForgotPassword() {
                 backgroundColor: theme.appBackground,
                 borderTopRightRadius: 24,
                 borderTopLeftRadius: 24,
-                padding: 50,
+                padding: 30,
             },
         })
     )

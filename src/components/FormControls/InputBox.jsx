@@ -11,23 +11,24 @@ const InputBox = ({
   keyboardType = 'default',
   icon = null,
   defaultValue = '',
+  secureTextEntry = false,
 }) => {
   const styles = useStyles((theme) =>
     StyleSheet.create({
       row: {
         flexDirection: 'row',
         alignItems: 'center',
-        borderRadius: 24,
+        borderRadius: 25,
         borderWidth: 1,
         borderColor: '#E6E6E6',
-        paddingHorizontal: 14,
-        height: 56,
-        backgroundColor: theme.appBackground,
+        paddingHorizontal: 15,
+        height: 50,
+        backgroundColor: '#FFFFFF',
       },
       input: {
         flex: 1,
         fontSize: 16,
-        color: theme.light,
+        color: '#333333',
         marginLeft: 8,
       },
       icon: { opacity: 0.75 },
@@ -56,9 +57,10 @@ const InputBox = ({
                 onChangeText={onChange}
                 onBlur={onBlur}
                 placeholder={placeholder}
-                placeholderTextColor="#ccaede"
+                placeholderTextColor="#999999"
                 style={styles.input}
                 keyboardType={keyboardType}
+                secureTextEntry={secureTextEntry}
                 />
             </View>
             {error && <Text style={styles.errorText}>{error.message}</Text>}

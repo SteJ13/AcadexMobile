@@ -7,6 +7,13 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null); // { id, name, role, token }
     const [loading, setLoading] = useState(true);
+    const [loginData, setLoginData] = useState({
+        emailOrPhone: '',
+        school: '',
+        user: '',
+        role: '',
+        password: '',
+    });
 
     // Load user on app start
     useEffect(() => {
@@ -40,13 +47,40 @@ export const AuthProvider = ({ children }) => {
         try {
             await AsyncStorage.removeItem('userData');
             setUser(null);
+            clearLoginData();
         } catch (error) {
             console.error('Error removing user:', error);
         }
     }, []);
 
+    // Login flow state management
+    const updateLoginData = useCallback((field, value) => {
+        setLoginData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    }, []);
+
+    const clearLoginData = useCallback(() => {
+        setLoginData({
+            emailOrPhone: '',
+            school: '',
+            user: '',
+            role: '',
+            password: '',
+        });
+    }, []);
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout }}>
+        <AuthContext.Provider value={{ 
+            user, 
+            loading, 
+            login, 
+            logout, 
+            loginData, 
+            updateLoginData, 
+            clearLoginData 
+        }}>
             {children}
         </AuthContext.Provider>
     );

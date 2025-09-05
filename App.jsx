@@ -47,11 +47,9 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <ToastProvider>
-
           <NavigationContainer>
             <RootNavigator />
           </NavigationContainer>
-
         </ToastProvider>
       </AuthProvider>
     </ThemeProvider>
