@@ -43,59 +43,24 @@ export default function StudentDashboard() {
         StyleSheet.create({
             container: {
                 flex: 1,
-                backgroundColor: theme.light,
-            },
-            header: {
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingHorizontal: 20,
-                paddingTop: 50,
-                paddingBottom: 20,
-                backgroundColor: 'transparent',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 10,
-            },
-            menuIcon: {
-                fontSize: 24,
-                color: theme.dark,
-            },
-            closeIcon: {
-                fontSize: 24,
-                color: theme.dark,
+                backgroundColor: '#87CEEB', // Light blue background as per wireframe
             },
             profileSection: {
-                flex: 0.4,
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: '#87CEEB',
-                paddingTop: 70,
-                paddingBottom: 30,
+                flex: 0.6,
+                backgroundColor: '#87CEEB', // Light blue background as per wireframe
+                position: 'relative',
             },
             profileImage: {
-                width: 120,
-                height: 120,
-                borderRadius: 60,
-                marginBottom: 15,
-                borderWidth: 4,
-                borderColor: '#fff',
-            },
-            studentName: {
-                fontSize: 28,
-                fontWeight: 'bold',
-                color: '#000000',
-                textAlign: 'center',
-                marginBottom: 10,
+                width: '100%',
+                height: '100%',
+                resizeMode: 'cover',
             },
             dashboardCard: {
-                flex: 0.6,
-                backgroundColor: '#8A2BE2',
+                flex: 0.4,
+                backgroundColor: '#8A2BE2', // Purple/violet background as per wireframe
                 marginTop: -30,
-                borderTopLeftRadius: 30,
-                borderTopRightRadius: 30,
+                borderTopLeftRadius: 25,
+                borderTopRightRadius: 25,
                 paddingHorizontal: 20,
                 paddingTop: 30,
             },
@@ -119,7 +84,7 @@ export default function StudentDashboard() {
             chartTitle: {
                 fontSize: 16,
                 fontWeight: 'bold',
-                color: '#FFD700',
+                color: theme.appText, // Orange color from theme
                 marginBottom: 10,
                 textAlign: 'center',
             },
@@ -177,7 +142,7 @@ export default function StudentDashboard() {
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: theme.light,
+                backgroundColor: '#87CEEB', // Light blue background as per wireframe
             },
             loadingText: {
                 marginTop: 10,
@@ -284,21 +249,12 @@ export default function StudentDashboard() {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity>
-                    <Text style={styles.menuIcon}>⋯</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleClose}>
-                    <Text style={styles.closeIcon}>✕</Text>
-                </TouchableOpacity>
-            </View>
-
+            {/* Profile Section with Large Image */}
             <View style={styles.profileSection}>
                 <Image
                     source={{ uri: 'https://img.freepik.com/premium-photo/poised-indian-college-boy-tailored-formal-suit_878783-15102.jpg?w=2000' }}
                     style={styles.profileImage}
                 />
-                <Text style={styles.studentName}>Abiyu Meshak A</Text>
             </View>
 
             <ScrollView style={styles.dashboardCard} showsVerticalScrollIndicator={false}>
@@ -346,15 +302,6 @@ export default function StudentDashboard() {
                     />
                 </View>
 
-                <TouchableOpacity 
-                    style={styles.backIcon} 
-                    onPress={() => {
-                        console.log('Button pressed!');
-                        handleLogout();
-                    }}
-                >
-                    <Text style={styles.backIconText}>←</Text>
-                </TouchableOpacity>
             </ScrollView>
         </View>
     );

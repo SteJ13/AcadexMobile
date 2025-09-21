@@ -4,30 +4,36 @@ import { useAuth } from '@context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import useStyles from '@hooks/useStyles';
 
-// Student Profile Data
-const STUDENT_PROFILE_DATA = {
-    name: 'Abiyu Meshak A',
-    class: 'XII A',
-    gender: 'Male',
-    bloodGroup: 'B+',
-    fatherName: 'Arul Francis',
-    motherName: 'Salethmary',
-    mobile: '9159622785',
-    address: '3/21, Mariyamman Koil St, Duttnagar, Villupuram, Tamil Nadu - 605 402. India.',
-    profileImage: 'https://via.placeholder.com/120x120/87CEEB/FFFFFF?text=AM'
+// Mock API function to get profile data
+const getProfile = () => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve({
+                name: 'Abiyu Meshak A',
+                class: 'XII A',
+                gender: 'Male',
+                bloodGroup: 'B+',
+                fatherName: 'Arul Francis',
+                motherName: 'Salethmary',
+                mobile: '9159622785',
+                address: '3/21, Mariyamman Koil St, Duttnagar, Villupuram, Tamil Nadu - 605 402. India.',
+                profileImage: 'https://via.placeholder.com/200x200/87CEEB/FFFFFF?text=AM'
+            });
+        }, 2000);
+    });
 };
 
 export default function StudentProfile() {
     const { user, logout } = useAuth();
     const navigation = useNavigation();
-    const [profileData, setProfileData] = useState(null);
+    const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const styles = useStyles((theme) =>
         StyleSheet.create({
             container: {
                 flex: 1,
-                backgroundColor: theme.light,
+                backgroundColor: '#87CEEB', // Light blue background as per wireframe
             },
             header: {
                 flexDirection: 'row',
@@ -45,85 +51,81 @@ export default function StudentProfile() {
             },
             menuIcon: {
                 fontSize: 24,
-                color: theme.dark,
+                color: '#000000',
+                fontWeight: 'bold',
             },
             closeIcon: {
                 fontSize: 24,
-                color: theme.dark,
+                color: '#000000',
+                fontWeight: 'bold',
             },
             profileSection: {
-                flex: 0.4,
-                alignItems: 'center',
-                justifyContent: 'center',
+                flex: 0.6,
                 backgroundColor: '#87CEEB', // Light blue background as per wireframe
-                paddingTop: 70,
-                paddingBottom: 30,
+                position: 'relative',
             },
             profileImage: {
-                width: 120,
-                height: 120,
-                borderRadius: 60,
-                marginBottom: 15,
-                borderWidth: 4,
-                borderColor: theme.light,
+                width: '100%',
+                height: '100%',
+                resizeMode: 'cover',
             },
-            studentName: {
-                fontSize: 28,
-                fontWeight: 'bold',
-                color: '#000000',
-                textAlign: 'center',
-                marginBottom: 10,
+            profileImageContainer: {
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
             },
             profileCard: {
-                flex: 0.6,
-                backgroundColor: '#8A2BE2', // Purple gradient background as per wireframe
+                flex: 0.4,
                 marginTop: -30,
-                borderTopLeftRadius: 30,
-                borderTopRightRadius: 30,
-                paddingHorizontal: 20,
-                paddingTop: 30,
+                borderTopLeftRadius: 25,
+                borderTopRightRadius: 25,
+                backgroundColor: '#8A2BE2', // Purple/violet background as per wireframe
+                paddingHorizontal: 25,
+                paddingTop: 50,
+                paddingBottom: 30,
             },
             nameTitle: {
-                fontSize: 24,
+                fontSize: 22,
                 fontWeight: 'bold',
-                color: theme.light,
+                color: theme.light, // Use theme light color
                 textAlign: 'center',
-                marginBottom: 5,
+                marginBottom: 8,
+                textDecorationLine: 'underline',
             },
             classText: {
                 fontSize: 18,
                 fontWeight: 'bold',
-                color: '#FFD700', // Yellow color as per wireframe
+                color: theme.appText, // Orange color from theme
                 textAlign: 'center',
-                marginBottom: 30,
+                marginBottom: 35,
                 textDecorationLine: 'underline',
             },
             detailsContainer: {
-                marginBottom: 20,
+                marginBottom: 30,
             },
             detailRow: {
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'flex-start',
-                marginBottom: 15,
-                paddingHorizontal: 10,
+                marginBottom: 18,
+                paddingHorizontal: 5,
             },
             detailLabel: {
                 fontSize: 16,
-                color: theme.light,
+                color: theme.light, // Use theme light color
                 fontWeight: '500',
                 flex: 1,
             },
             detailValue: {
                 fontSize: 16,
-                color: '#FFD700', // Yellow color as per wireframe
+                color: theme.appText, // Orange color from theme
                 fontWeight: '500',
                 flex: 2,
                 textAlign: 'right',
             },
             addressValue: {
                 fontSize: 14,
-                color: '#FFD700', // Yellow color as per wireframe
+                color: theme.appText, // Orange color from theme
                 fontWeight: '500',
                 flex: 2,
                 textAlign: 'right',
@@ -132,13 +134,17 @@ export default function StudentProfile() {
             backButton: {
                 alignSelf: 'center',
                 marginTop: 20,
-                marginBottom: 30,
-                padding: 15,
-                backgroundColor: theme.light,
+                marginBottom: 20,
+                padding: 12,
+                backgroundColor: '#FFFFFF',
                 borderRadius: 8,
+                width: 40,
+                height: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
             },
             backIcon: {
-                fontSize: 20,
+                fontSize: 18,
                 color: '#8A2BE2',
                 fontWeight: 'bold',
             },
@@ -146,17 +152,23 @@ export default function StudentProfile() {
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: theme.light,
+                backgroundColor: '#87CEEB', // Light blue background as per wireframe
+            },
+            loadingText: {
+                marginTop: 15,
+                fontSize: 16,
+                color: theme.dark, // Use theme dark color
+                fontWeight: '500',
             },
         })
     );
 
     useEffect(() => {
-        // Simulate API call with 2 second delay
         const loadProfileData = async () => {
             try {
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                setProfileData(STUDENT_PROFILE_DATA);
+                setLoading(true);
+                const profileData = await getProfile();
+                setUserData(profileData);
             } catch (error) {
                 console.error('Error loading profile data:', error);
             } finally {
@@ -207,77 +219,63 @@ export default function StudentProfile() {
         return (
             <View style={styles.loadingContainer}>
                 <ActivityIndicator size="large" color="#8A2BE2" />
-                <Text style={{ marginTop: 10, color: '#333' }}>Loading profile...</Text>
+                <Text style={styles.loadingText}>Loading profile...</Text>
             </View>
         );
     }
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity>
-                    <Text style={styles.menuIcon}>⋯</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleClose}>
-                    <Text style={styles.closeIcon}>✕</Text>
-                </TouchableOpacity>
-            </View>
+           
 
+            {/* Profile Section with Large Image */}
             <View style={styles.profileSection}>
                 <Image
-                    source={{ uri: profileData?.profileImage || 'https://via.placeholder.com/100x100/87CEEB/FFFFFF?text=AM' }}
+                    source={{ uri: userData?.profileImage || 'https://via.placeholder.com/400x400/87CEEB/FFFFFF?text=AM' }}
                     style={styles.profileImage}
                 />
-                <Text style={styles.studentName}>{profileData?.name || 'Student Name'}</Text>
             </View>
 
+            {/* Purple Profile Card */}
             <ScrollView style={styles.profileCard} showsVerticalScrollIndicator={false}>
-                <Text style={styles.nameTitle}>{profileData?.name || 'Student Name'}</Text>
-                <Text style={styles.classText}>{profileData?.class || 'Class XII'}</Text>
+                <Text style={styles.nameTitle}>{userData?.name || 'Student Name'}</Text>
+                <Text style={styles.classText}>{userData?.class || 'Class XII'}</Text>
 
                 <View style={styles.detailsContainer}>
                     <View style={styles.detailRow}>
                         <Text style={styles.detailLabel}>Gender:</Text>
-                        <Text style={styles.detailValue}>{profileData?.gender || 'Male'}</Text>
+                        <Text style={styles.detailValue}>{userData?.gender || 'Male'}</Text>
                     </View>
 
                     <View style={styles.detailRow}>
                         <Text style={styles.detailLabel}>Blood Group:</Text>
-                        <Text style={styles.detailValue}>{profileData?.bloodGroup || 'B+'}</Text>
+                        <Text style={styles.detailValue}>{userData?.bloodGroup || 'B+'}</Text>
                     </View>
 
                     <View style={styles.detailRow}>
                         <Text style={styles.detailLabel}>Father's Name:</Text>
-                        <Text style={styles.detailValue}>{profileData?.fatherName || 'Arul Francis'}</Text>
+                        <Text style={styles.detailValue}>{userData?.fatherName || 'Arul Francis'}</Text>
                     </View>
 
                     <View style={styles.detailRow}>
                         <Text style={styles.detailLabel}>Mother's Name:</Text>
-                        <Text style={styles.detailValue}>{profileData?.motherName || 'Salethmary'}</Text>
+                        <Text style={styles.detailValue}>{userData?.motherName || 'Salethmary'}</Text>
                     </View>
 
                     <View style={styles.detailRow}>
                         <Text style={styles.detailLabel}>Mobile No:</Text>
-                        <Text style={styles.detailValue}>{profileData?.mobile || '9159622785'}</Text>
+                        <Text style={styles.detailValue}>{userData?.mobile || '9159622785'}</Text>
                     </View>
 
                     <View style={styles.detailRow}>
                         <Text style={styles.detailLabel}>Address:</Text>
                         <Text style={styles.addressValue}>
-                            {profileData?.address || '3/21, Mariyamman Koil St, Duttnagar, Villupuram, Tamil Nadu - 605 402. India.'}
+                            {userData?.address || '3/21, Mariyamman Koil St, Duttnagar, Villupuram, Tamil Nadu - 605 402. India.'}
                         </Text>
                     </View>
                 </View>
 
-                <TouchableOpacity 
-                    style={styles.backButton} 
-                    onPress={() => {
-                        console.log('Button pressed!');
-                        handleLogout();
-                    }}
-                >
-                    <Text style={styles.backIcon}>←</Text>
-                </TouchableOpacity>
+                
             </ScrollView>
         </View>
     );

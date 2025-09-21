@@ -1,0 +1,103 @@
+{
+  "common": {
+    "login": "Login",
+    "logout": "Logout",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "loading": "Loading...",
+    "pleaseWait": "Please wait...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Info",
+    "welcome": "Welcome",
+    "search": "Search"
+  },
+  "auth": {
+    "mobileNo": "Email or Phone",
+    "selectSchool": "Select School",
+    "selectUser": "Select User",
+    "selectMember": "Select Member",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "loginSuccess": "Login successful!",
+    "loginFailed": "Login failed. Please try again.",
+    "logoutConfirm": "Are you sure you want to logout?",
+    "enterValidEmail": "Please enter a valid email or phone number",
+    "selectSchoolError": "Please select a school",
+    "selectUserError": "Please select a user",
+    "selectMemberError": "Please select a member",
+    "fillAllFields": "Please fill all required fields correctly",
+    "selectRole": "Select Role",
+    "selectRoleRequired": "Please select a role",
+    "mobileNoRequired": "Please enter a mobile number",
+    "invalidEmailOrPhoneFormat": "Please enter a valid email or phone number",
+    "memberDataNotFound": "Member data not found"
+  },
+  "navigation": {
+    "home": "Home",
+    "profile": "Profile",
+    "settings": "Settings",
+    "dashboard": "Dashboard",
+    "attendance": "Attendance",
+    "fees": "Fees",
+    "notifications": "Notifications"
+  },
+  "student": {
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "attendance": "Attendance",
+    "fees": "Fees",
+    "present": "Present",
+    "absent": "Absent",
+    "totalDays": "Total Days",
+    "percentage": "Percentage",
+    "paid": "Paid",
+    "due": "Due",
+    "total": "Total"
+  },
+  "staff": {
+    "dashboard": "Staff Dashboard",
+    "students": "Students",
+    "attendance": "Attendance"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "students": "Students",
+    "staff": "Staff",
+    "fees": "Fees",
+    "reports": "Reports"
+  },
+  "member": {
+    "profile": "Member Profile",
+    "dashboard": "Member Dashboard",
+    "institutionCode": "Institution Code",
+    "roleId": "Role ID",
+    "memberId": "Member ID",
+    "category": "Category",
+    "memberName": "Member Name",
+    "mobileNo": "Mobile Number",
+    "photoPath": "Photo Path",
+    "isActive": "Is Active",
+    "academicyear": "Academic Year",
+    "class": "Class",
+    "className": "Class Name",
+    "connectionString": "Connection String"
+  },
+  "profile": {
+    "name": "Name",
+    "class": "Class",
+    "gender": "Gender",
+    "bloodGroup": "Blood Group",
+    "fatherName": "Father's Name",
+    "motherName": "Mother's Name",
+    "mobile": "Mobile",
+    "address": "Address"
+  }
+}
