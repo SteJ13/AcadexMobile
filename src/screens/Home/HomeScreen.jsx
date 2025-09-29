@@ -6,12 +6,12 @@ import useStyles from '@hooks/useStyles';
 import { useAuth } from '@context/AuthContext';
 import { useDrawer } from '@context/DrawerContext';
 import GradientButton from '@components/FormControls/GradientButton';
+import UserSelector from '@components/UserSelector';
 
 const HomeScreen = () => {
   const { t } = useTranslation();
   const styles = useStyles(createStyles);
   const { user } = useAuth();
-  console.log('user', user);
   const { openDrawer } = useDrawer();
   const navigation = useNavigation();
 
@@ -31,7 +31,7 @@ const HomeScreen = () => {
           <Text style={styles.menuIcon}>☰</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{t('navigation.home')}</Text>
-        <View style={styles.headerSpacer} />
+        <UserSelector />
       </View>
       
       <ScrollView style={styles.scrollContainer}>
@@ -85,9 +85,6 @@ const createStyles = (theme) => StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     color: theme.light,
-  },
-  headerSpacer: {
-    width: 34, // Same width as menu button to center the title
   },
   scrollContainer: {
     flex: 1,

@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { ThemeProvider } from './src/context/ThemeContext'
 import RootNavigator from './src/navigation/RootNavigator'
 import { NavigationContainer } from '@react-navigation/native'
@@ -7,9 +8,12 @@ import { AuthProvider } from '@context/AuthContext';
 import { ToastProvider } from '@context/ToastContext';
 import { LanguageProvider } from '@context/LanguageContext';
 import { DrawerProvider } from '@context/DrawerContext';
+import { OnboardingProvider } from '@context/OnboardingContext';
+import AppSplashScreen from '@components/AppSplashScreen';
 import './src/i18n'; // Initialize i18n
 
 export default function App() {
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     // Initialize notification service
@@ -21,19 +25,32 @@ export default function App() {
     };
   }, []);
 
+  const handleInitializationComplete = () => {
+    console.log('🎉 App initialization completed, showing main app');
+    setIsInitialized(true);
+  };
+
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <AuthProvider>
-          <ToastProvider>
-            <DrawerProvider>
-              <NavigationContainer>
-                <RootNavigator />
-              </NavigationContainer>
-            </DrawerProvider>
-          </ToastProvider>
-        </AuthProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <LanguageProvider>
+          <OnboardingProvider>
+            <AuthProvider>
+              <ToastProvider>
+                <DrawerProvider>
+                  {!isInitialized ? (
+                    <AppSplashScreen onInitializationComplete={handleInitializationComplete} />
+                  ) : (
+                    <NavigationContainer>
+                      <RootNavigator />
+                    </NavigationContainer>
+                  )}
+                </DrawerProvider>
+              </ToastProvider>
+            </AuthProvider>
+          </OnboardingProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   )
 }

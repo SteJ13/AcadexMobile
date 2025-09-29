@@ -1,13 +1,16 @@
 // Role-based drawer menu configuration
-import HomeScreen from '../screens/Home/HomeScreen';
-import StudentProfile from '../screens/Student/StudentProfile';
-import StudentDashboard from '../screens/Student/StudentDashboard';
-import FeesScreen from '../screens/Student/FeesScreen';
-import AttendanceScreen from '../screens/Student/AttendanceScreen';
-import NotificationsScreen from '../screens/Notifications/NotificationsScreen';
-import SettingsScreen from '../screens/Settings/SettingsScreen';
-import StaffFeesScreen from '../screens/Staff/StaffFeesScreen';
-import StaffAttendanceScreen from '../screens/Staff/StaffAttendanceScreen';
+import HomeScreen from '@screens/Home/HomeScreen';
+import StudentProfile from '@screens/Student/StudentProfile';
+import StudentDashboard from '@screens/Student/StudentDashboard';
+import FeesScreen from '@screens/Student/FeesScreen';
+import AttendanceScreen from '@screens/Student/AttendanceScreen';
+import HomeworkScreen from '@screens/Student/Homework';
+import TimeTableScreen from '@screens/Student/TimeTable';
+import ExamTimeTableScreen from '@screens/Student/ExamTimeTable';
+import NotificationsScreen from '../notifications/NotificationsScreen';
+import SettingsScreen from '@screens/Settings/SettingsScreen';
+import StaffFeesScreen from '@screens/Staff/StaffFeesScreen';
+import StaffAttendanceScreen from '@screens/Staff/StaffAttendanceScreen';
 
 export const ROLES = {
   STUDENT: 4,
@@ -22,6 +25,9 @@ const studentMenuItems = [
   { id: 'dashboard', title: 'student.dashboard', screen: 'Dashboard', component: StudentDashboard },
   { id: 'fees', title: 'student.fees', screen: 'Fees', component: FeesScreen },
   { id: 'attendance', title: 'student.attendance', screen: 'Attendance', component: AttendanceScreen },
+  { id: 'homework', title: 'student.homework', screen: 'Homework', component: HomeworkScreen },
+  { id: 'timetable', title: 'student.timetable', screen: 'TimeTable', component: TimeTableScreen },
+  { id: 'examTimetable', title: 'student.examTimetable', screen: 'ExamTimeTable', component: ExamTimeTableScreen },
   { id: 'notifications', title: 'navigation.notifications', screen: 'Notifications', component: NotificationsScreen },
   { id: 'settings', title: 'navigation.settings', screen: 'Settings', component: SettingsScreen },
 ];

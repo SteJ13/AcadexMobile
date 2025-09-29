@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import useStyles from '@hooks/useStyles';
 import { gradientFromBase } from '@utils/color';
 
-const scooter = require('../../assets/images/scooter.webp'); // update path
+const scooter = require('@assets/images/scooter.webp');
 
 const ScreenWrapper = ({
  title = 'AcadEx',

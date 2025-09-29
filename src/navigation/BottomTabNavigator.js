@@ -2,17 +2,17 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../context/AuthContext';
-import { getMenuItemsByRole } from '../config/drawerMenuConfig';
-import HomeScreen from '../screens/Home/HomeScreen';
-import NotificationsScreen from '../screens/Notifications/NotificationsScreen';
-import StudentProfile from '../screens/Student/StudentProfile';
-import StudentDashboard from '../screens/Student/StudentDashboard';
-import SettingsScreen from '../screens/Settings/SettingsScreen';
+import { useAuth } from '@context/AuthContext';
+import { getMenuItemsByRole } from '@config/drawerMenuConfig';
+import HomeScreen from '@screens/Home/HomeScreen';
+import NotificationsScreen from '../notifications/NotificationsScreen';
+import StudentProfile from '@screens/Student/StudentProfile';
+import StudentDashboard from '@screens/Student/StudentDashboard';
+import SettingsScreen from '@screens/Settings/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 
-const BottomTabNavigator = () => {
+const BottomTabNavigator = ({ initialRouteName = 'Home' }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   
@@ -26,6 +26,7 @@ const BottomTabNavigator = () => {
 
   return (
     <Tab.Navigator
+      initialRouteName={initialRouteName}
       screenOptions={{
         headerShown: false,
         tabBarStyle: {

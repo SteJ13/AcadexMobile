@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // API Configuration
 const API_VERSION = 1;
-const BASE_URL = 'http://apiv2.binaryexpertsystems.com/api/v' + API_VERSION + '/';
+const BASE_URL = 'https://apiv1.binaryexpertsystems.com/api/v' + API_VERSION + '/';
 
 // Create axios instance with base configuration
 const axiosInstance = axios.create({
@@ -21,11 +21,27 @@ axiosInstance.interceptors.request.use(
     // if (token) {
     //   config.headers.Authorization = `Bearer ${token}`;
     // }
-    console.log('API Request:', config.method?.toUpperCase(), config.url);
+    
+    // Enhanced logging for debugging
+    console.log('🚀 API Request:', {
+      method: config.method?.toUpperCase(),
+      url: config.url,
+      fullURL: config.baseURL + config.url,
+      headers: config.headers,
+      data: config.data,
+      params: config.params,
+      timeout: config.timeout
+    });
+    
+    // Log payload specifically for POST/PUT requests
+    if (config.data && (config.method === 'post' || config.method === 'put')) {
+      console.log('📤 Request Payload:', JSON.stringify(config.data, null, 2));
+    }
+    
     return config;
   },
   (error) => {
-    console.error('Request Error:', error);
+    console.error('❌ Request Error:', error);
     return Promise.reject(error);
   }
 );
@@ -33,7 +49,19 @@ axiosInstance.interceptors.request.use(
 // Response interceptor
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log('API Response:', response.status, response.config.url);
+    // Enhanced response logging
+    console.log('✅ API Response:', {
+      status: response.status,
+      statusText: response.statusText,
+      url: response.config.url,
+      method: response.config.method?.toUpperCase(),
+      data: response.data
+    });
+    
+    // Log response data for debugging
+    if (response.data) {
+      console.log('📥 Response Data:', JSON.stringify(response.data, null, 2));
+    }
     
     // Check if the response has the expected structure with isTransactionDone
     if (response.data && typeof response.data === 'object' && 'isTransactionDone' in response.data) {
@@ -41,6 +69,7 @@ axiosInstance.interceptors.response.use(
       
       if (!isTransactionDone) {
         // If transaction failed, reject with the error message
+        console.log('❌ Transaction Failed:', transactionErrorMessage);
         const error = new Error(transactionErrorMessage || 'Transaction failed');
         error.response = response;
         return Promise.reject(error);

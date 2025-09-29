@@ -1,6 +1,7 @@
 import messaging from '@react-native-firebase/messaging';
 import { getApp } from '@react-native-firebase/app';
 import { Alert } from 'react-native';
+import NavigationService from '@navigation/NavigationService';
 
 export const setupNotificationHandlers = () => {
     // Get the default Firebase app to avoid deprecation warnings
@@ -11,15 +12,23 @@ export const setupNotificationHandlers = () => {
     const unsubscribeForeground = messagingInstance.onMessage(async remoteMessage => {
         console.log('Foreground notification received:', remoteMessage);
         
-        // Show alert for foreground notifications
+        // Show alert for foreground notifications with View and Close buttons
         Alert.alert(
             remoteMessage.notification?.title || 'New Notification',
             remoteMessage.notification?.body || '',
             [
                 {
-                    text: 'OK',
+                    text: 'Close',
+                    style: 'cancel',
                     onPress: () => {
-                        // Handle notification tap
+                        // Just close the popup, no navigation
+                        console.log('Notification popup closed');
+                    }
+                },
+                {
+                    text: 'View',
+                    onPress: () => {
+                        // Navigate to notifications screen
                         handleNotificationPress(remoteMessage);
                     }
                 }
@@ -51,20 +60,15 @@ export const setupNotificationHandlers = () => {
 };
 
 const handleNotificationPress = (remoteMessage) => {
-    // Handle navigation or other actions based on notification data
-    const data = remoteMessage.data;
+    console.log('Handling notification press:', remoteMessage);
     
-    if (data) {
-        console.log('Notification data:', data);
-        
-        // Example: Navigate to specific screen based on notification type
-        if (data.screen) {
-            // You can use navigation here if needed
-            console.log('Navigate to screen:', data.screen);
-        }
-        
-        if (data.action) {
-            console.log('Perform action:', data.action);
-        }
+    // Use NavigationService to handle navigation
+    NavigationService.handlePushNotificationNavigation(remoteMessage);
+    
+    // Handle additional actions based on notification data
+    const data = remoteMessage.data;
+    if (data?.action) {
+        console.log('Perform action:', data.action);
+        // Handle specific actions here if needed
     }
 };

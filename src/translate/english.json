@@ -17,7 +17,11 @@
     "warning": "Warning",
     "info": "Info",
     "welcome": "Welcome",
-    "search": "Search"
+    "search": "Search",
+    "switch": "Switch",
+    "current": "Current",
+    "selectUser": "Select User",
+    "addUser": "Add User"
   },
   "auth": {
     "mobileNo": "Email or Phone",
@@ -54,6 +58,9 @@
     "dashboard": "Dashboard",
     "attendance": "Attendance",
     "fees": "Fees",
+    "homework": "Homework",
+    "timetable": "Class Timetable",
+    "examTimetable": "Exam Timetable",
     "present": "Present",
     "absent": "Absent",
     "totalDays": "Total Days",

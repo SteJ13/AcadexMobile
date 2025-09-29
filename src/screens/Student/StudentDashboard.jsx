@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, ScrollView, Alert, StatusBar } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import useStyles from '@hooks/useStyles';
@@ -36,6 +37,7 @@ const screenWidth = Dimensions.get('window').width;
 export default function StudentDashboard() {
     const { user, logout } = useAuth();
     const navigation = useNavigation();
+    const insets = useSafeAreaInsets();
     const [dashboardData, setDashboardData] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -249,6 +251,11 @@ export default function StudentDashboard() {
 
     return (
         <View style={styles.container}>
+            <StatusBar 
+                barStyle="dark-content" 
+                backgroundColor="#87CEEB"
+                translucent={false}
+            />
             {/* Profile Section with Large Image */}
             <View style={styles.profileSection}>
                 <Image

@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useTranslation } from 'react-i18next';
-import useStyles from '../hooks/useStyles';
-import { useAuth } from '../context/AuthContext';
-import { useLanguage } from '../context/LanguageContext';
-import { getMenuItemsByRole, getRoleName } from '../config/drawerMenuConfig';
-import HomeScreen from '../screens/Home/HomeScreen';
-import NotificationsScreen from '../screens/Notifications/NotificationsScreen';
-import StudentProfile from '../screens/Student/StudentProfile';
-import StudentDashboard from '../screens/Student/StudentDashboard';
-import FeesScreen from '../screens/Student/FeesScreen';
-import AttendanceScreen from '../screens/Student/AttendanceScreen';
-import SettingsScreen from '../screens/Settings/SettingsScreen';
+import useStyles from '@hooks/useStyles';
+import { useAuth } from '@context/AuthContext';
+import { useLanguage } from '@context/LanguageContext';
+import { getMenuItemsByRole, getRoleName } from '@config/drawerMenuConfig';
+import HomeScreen from '@screens/Home/HomeScreen';
+import NotificationsScreen from '../notifications/NotificationsScreen';
+import StudentProfile from '@screens/Student/StudentProfile';
+import StudentDashboard from '@screens/Student/StudentDashboard';
+import FeesScreen from '@screens/Student/FeesScreen';
+import AttendanceScreen from '@screens/Student/AttendanceScreen';
+import SettingsScreen from '@screens/Settings/SettingsScreen';
 
 const Drawer = createDrawerNavigator();
 

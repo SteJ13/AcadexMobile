@@ -12,46 +12,113 @@ const FeesScreen = ({ isDrawerScreen = false, onBackPress }) => {
   // Mock fee data - in real app, this would come from API
   const feeData = {
     totalOutstanding: 14500,
-    paymentTerms: [
+    paymentDetails: [
       {
         id: 1,
         term: 'Term I',
-        amount: 10000,
         dueDate: '01/01/2025',
-        status: 'pending',
+        paidAmount: 10000,
+        status: 'paid',
         color: '#8B5CF6', // Purple
       },
       {
         id: 2,
         term: 'Term II',
-        amount: 10000,
-        dueDate: '01/01/2025',
-        status: 'pending',
+        dueDate: '15/01/2025',
+        paidAmount: 10000,
+        status: 'paid',
         color: '#EC4899', // Pink
       },
       {
         id: 3,
         term: 'Term III',
-        amount: 10000,
-        dueDate: '01/01/2025',
-        status: 'pending',
+        dueDate: '05/02/2025',
+        paidAmount: 5000,
+        status: 'paid',
         color: '#F59E0B', // Yellow
+      },
+    ],
+    paymentHistory: [
+      {
+        id: 1,
+        term: 'Term I',
+        dueDate: '01/01/2025',
+        paidAmount: 10000,
+        paymentDate: '28/12/2024',
+        paymentMethod: 'Online Banking',
+        transactionId: 'TXN001234',
+        status: 'completed',
+      },
+      {
+        id: 2,
+        term: 'Term I',
+        dueDate: '15/01/2025',
+        paidAmount: 10000,
+        paymentDate: '10/01/2025',
+        paymentMethod: 'Credit Card',
+        transactionId: 'TXN001235',
+        status: 'completed',
+      },
+      {
+        id: 3,
+        term: 'Term II',
+        dueDate: '05/02/2025',
+        paidAmount: 5000,
+        paymentDate: '01/02/2025',
+        paymentMethod: 'UPI',
+        transactionId: 'TXN001236',
+        status: 'completed',
+      },
+      {
+        id: 4,
+        term: 'Term III',
+        dueDate: '25/03/2025',
+        paidAmount: 5000,
+        paymentDate: '20/03/2025',
+        paymentMethod: 'Net Banking',
+        transactionId: 'TXN001237',
+        status: 'completed',
       },
     ],
   };
 
-  const renderPaymentTerm = (term) => (
-    <View key={term.id} style={styles.paymentTermCard}>
-      <View style={styles.termHeader}>
-        <View style={[styles.termIcon, { backgroundColor: term.color }]}>
-          <Text style={styles.termIconText}>₹</Text>
+  const renderPaymentDetailsCards = () => (
+    <View style={styles.paymentCardsContainer}>
+      {feeData.paymentDetails.map((payment) => (
+        <View key={payment.id} style={styles.paymentCard}>
+          <View style={styles.cardHeader}>
+            <View style={[styles.termIcon, { backgroundColor: payment.color }]}>
+              <Text style={styles.termIconText}>₹</Text>
+            </View>
+            <View style={styles.termInfo}>
+              <Text style={styles.termName}>{payment.term}</Text>
+            </View>
+            <View style={styles.termDetails}>
+              <Text style={styles.termAmount}>₹ {payment.paidAmount.toLocaleString()}</Text>
+              <Text style={styles.termDueDate}>Due Date: {payment.dueDate}</Text>
+            </View>
+          </View>
         </View>
-        <View style={styles.termInfo}>
-          <Text style={styles.termName}>{term.term}</Text>
-          <Text style={styles.termAmount}>₹{term.amount.toLocaleString()}</Text>
-          <Text style={styles.termDueDate}>Due Date: {term.dueDate}</Text>
-        </View>
+      ))}
+    </View>
+  );
+
+  const renderPaymentHistoryTable = () => (
+    <View style={styles.tableContainer}>
+      <View style={styles.tableHeader}>
+        <Text style={styles.headerText}>Term</Text>
+        <Text style={styles.headerText}>Payment Date</Text>
+        <Text style={styles.headerText}>Amount</Text>
+        <Text style={styles.headerText}>Method</Text>
       </View>
+      {feeData.paymentHistory.map((payment, index) => (
+        <View key={payment.id} style={[styles.tableRow, index > 0 && styles.tableRowBorder]}>
+          <Text style={styles.termText}>{payment.term}</Text>
+          <Text style={styles.paymentDateText}>{payment.paymentDate}</Text>
+          <Text style={styles.paidAmountText}>₹ {payment.paidAmount.toLocaleString()}</Text>
+          <Text style={styles.paymentMethodText}>{payment.paymentMethod}</Text>
+        </View>
+      ))}
     </View>
   );
 
@@ -98,19 +165,11 @@ const FeesScreen = ({ isDrawerScreen = false, onBackPress }) => {
           </TouchableOpacity>
         </View>
 
-        {/* Payment Terms */}
-        {activeTab === 'paymentDetails' && (
-          <View style={styles.paymentTermsContainer}>
-            {feeData.paymentTerms.map(renderPaymentTerm)}
-          </View>
-        )}
+        {/* Payment Details Cards */}
+        {activeTab === 'paymentDetails' && renderPaymentDetailsCards()}
 
-        {/* Payment History */}
-        {activeTab === 'paymentHistory' && (
-          <View style={styles.paymentHistoryContainer}>
-            <Text style={styles.noHistoryText}>No payment history available</Text>
-          </View>
-        )}
+        {/* Payment History Table */}
+        {activeTab === 'paymentHistory' && renderPaymentHistoryTable()}
       </View>
     </ScreenLayout>
   );
@@ -194,10 +253,11 @@ const createStyles = (theme) => StyleSheet.create({
   activeTabText: {
     color: theme.primary,
   },
-  paymentTermsContainer: {
+  // Payment Cards styles
+  paymentCardsContainer: {
     gap: 12,
   },
-  paymentTermCard: {
+  paymentCard: {
     backgroundColor: theme.light,
     borderRadius: 12,
     padding: 16,
@@ -207,7 +267,7 @@ const createStyles = (theme) => StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
-  termHeader: {
+  cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -231,27 +291,84 @@ const createStyles = (theme) => StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: theme.dark,
-    marginBottom: 4,
+  },
+  termDetails: {
+    alignItems: 'flex-end',
   },
   termAmount: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: theme.primary,
+    color: '#007AFF',
     marginBottom: 2,
   },
   termDueDate: {
     fontSize: 12,
     color: '#ff4444',
   },
-  paymentHistoryContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 40,
+  // Table styles
+  tableContainer: {
+    backgroundColor: theme.light,
+    borderRadius: 12,
+    padding: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  noHistoryText: {
-    fontSize: 16,
-    color: '#666',
+  tableHeader: {
+    flexDirection: 'row',
+    paddingBottom: 12,
+    marginBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  headerText: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '600',
+    color: theme.dark,
+    textAlign: 'center',
+  },
+  tableRow: {
+    flexDirection: 'row',
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  tableRowBorder: {
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
+  },
+  termText: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '500',
+    color: theme.dark,
+    textAlign: 'center',
+  },
+  dueDateText: {
+    flex: 1,
+    fontSize: 14,
+    color: theme.dark,
+    textAlign: 'center',
+  },
+  paymentDateText: {
+    flex: 1,
+    fontSize: 14,
+    color: theme.dark,
+    textAlign: 'center',
+  },
+  paidAmountText: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#007AFF',
+    textAlign: 'center',
+  },
+  paymentMethodText: {
+    flex: 1,
+    fontSize: 14,
+    color: theme.dark,
     textAlign: 'center',
   },
 });

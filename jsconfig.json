@@ -22,6 +22,18 @@
             ],
             "@utils/*": [
                 "src/utils/*"
+            ],
+            "@notifications/*": [
+                "src/notifications/*"
+            ],
+            "@config/*": [
+                "src/config/*"
+            ],
+            "@constants/*": [
+                "src/constants/*"
+            ],
+            "@translate/*": [
+                "src/translate/*"
             ]
         }
     },

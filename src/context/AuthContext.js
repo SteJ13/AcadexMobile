@@ -24,23 +24,41 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const loadUsers = async () => {
             try {
-                const storedUsers = await AsyncStorage.getItem('savedUsers');
-                const activeUserId = await AsyncStorage.getItem('activeUserId');
+                console.log('🔍 Loading auth data from AsyncStorage...');
+                const startTime = Date.now();
+                
+                // Read both values in parallel for better performance
+                const [storedUsers, activeUserId] = await Promise.all([
+                    AsyncStorage.getItem('savedUsers'),
+                    AsyncStorage.getItem('activeUserId')
+                ]);
+                
+                const endTime = Date.now();
+                console.log(`📱 Auth AsyncStorage read took ${endTime - startTime}ms`);
                 
                 if (storedUsers) {
                     const usersList = JSON.parse(storedUsers);
                     setUsers(usersList);
+                    console.log(`👥 Loaded ${usersList.length} saved users`);
                     
                     if (activeUserId) {
                         const activeUser = usersList.find(u => u.id === activeUserId);
                         if (activeUser) {
                             setUser(activeUser);
+                            console.log(`✅ Active user found: ${activeUser.memberName}`);
+                        } else {
+                            console.log('⚠️ Active user ID not found in users list');
                         }
+                    } else {
+                        console.log('ℹ️ No active user ID found');
                     }
+                } else {
+                    console.log('ℹ️ No saved users found');
                 }
             } catch (error) {
                 console.error('Error loading users:', error);
             } finally {
+                console.log('🏁 Auth loading complete');
                 setLoading(false);
             }
         };
@@ -51,10 +69,14 @@ export const AuthProvider = ({ children }) => {
     const login = useCallback(async (userData) => {
         try {
             const updatedUsers = [...users];
-            const existingUserIndex = updatedUsers.findIndex(u => u.id === userData.id);
+            // Check for duplicate based on memberId and institutionCode
+            const existingUserIndex = updatedUsers.findIndex(u => 
+                u.memberId === userData.memberId && 
+                u.institutionCode === userData.institutionCode
+            );
             
             if (existingUserIndex >= 0) {
-                // Update existing user
+                // Update existing user with new data
                 updatedUsers[existingUserIndex] = userData;
             } else {
                 // Add new user
@@ -78,11 +100,13 @@ export const AuthProvider = ({ children }) => {
             if (userToSwitch) {
                 await AsyncStorage.setItem('activeUserId', userId);
                 setUser(userToSwitch);
+                // Clear login data when switching users
+                clearLoginData();
             }
         } catch (error) {
             console.error('Error switching user:', error);
         }
-    }, [users]);
+    }, [users, clearLoginData]);
 
     // Remove user from saved users
     const removeUser = useCallback(async (userId) => {
@@ -115,6 +139,38 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
 
+    // Logout current user only - switches to another user if available
+    const logoutCurrentUser = useCallback(async () => {
+        try {
+            const updatedUsers = users.filter(u => u.id !== user?.id);
+            await AsyncStorage.setItem('savedUsers', JSON.stringify(updatedUsers));
+            setUsers(updatedUsers);
+            
+            if (updatedUsers.length > 0) {
+                // Switch to first available user
+                await switchUser(updatedUsers[0].id);
+            } else {
+                // No users left, logout completely
+                await logout();
+            }
+        } catch (error) {
+            console.error('Error removing current user:', error);
+        }
+    }, [users, user, switchUser, logout]);
+
+    // Logout all users - removes all saved users and logs out
+    const logoutAllUsers = useCallback(async () => {
+        try {
+            await AsyncStorage.removeItem('savedUsers');
+            await AsyncStorage.removeItem('activeUserId');
+            setUsers([]);
+            setUser(null);
+            clearLoginData();
+        } catch (error) {
+            console.error('Error removing all users:', error);
+        }
+    }, []);
+
     // Login flow state management
     const updateLoginData = useCallback((field, value) => {
         setLoginData(prev => ({
@@ -144,6 +200,8 @@ export const AuthProvider = ({ children }) => {
             loading, 
             login, 
             logout, 
+            logoutCurrentUser,
+            logoutAllUsers,
             switchUser,
             removeUser,
             loginData, 

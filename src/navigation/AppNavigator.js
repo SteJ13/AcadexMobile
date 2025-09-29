@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Modal, Animated, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Modal, Animated, Dimensions, DeviceEventEmitter } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import useStyles from '../hooks/useStyles';
-import { useAuth } from '../context/AuthContext';
-import { useLanguage } from '../context/LanguageContext';
-import { useDrawer } from '../context/DrawerContext';
-import { getMenuItemsByRole, getRoleName } from '../config/drawerMenuConfig';
+import useStyles from '@hooks/useStyles';
+import { useAuth } from '@context/AuthContext';
+import { useLanguage } from '@context/LanguageContext';
+import { useDrawer } from '@context/DrawerContext';
+import { getMenuItemsByRole, getRoleName } from '@config/drawerMenuConfig';
 import BottomTabNavigator from './BottomTabNavigator';
+import { TAB_NAVIGATION_EVENTS } from './NavigationService';
 
 const { width: screenWidth } = Dimensions.get('window');
 const DRAWER_WIDTH = 280;
@@ -97,6 +98,15 @@ const CustomDrawer = ({ isVisible, onClose, navigation }) => {
       overlayAnim.setValue(0);
     }
   }, [isVisible]);
+
+  // Cleanup animations on unmount
+  useEffect(() => {
+    return () => {
+      // Stop any running animations
+      slideAnim.stopAnimation();
+      overlayAnim.stopAnimation();
+    };
+  }, []);
 
   return (
     <Modal
@@ -198,13 +208,15 @@ const AppNavigator = () => {
   const { drawerVisible, closeDrawer } = useDrawer();
   const { user } = useAuth();
   const [currentDrawerScreen, setCurrentDrawerScreen] = useState(null);
+  const [activeTab, setActiveTab] = useState('Home');
 
   const handleDrawerNavigation = (screenName) => {
     // Check if it's a bottom tab screen
     const bottomTabScreens = ['Home', 'Profile', 'Dashboard', 'Notifications', 'Settings'];
     
     if (bottomTabScreens.includes(screenName)) {
-      // Navigate to bottom tab screen - just close drawer
+      // Navigate to bottom tab screen - set active tab and close drawer
+      setActiveTab(screenName);
       setCurrentDrawerScreen(null);
     } else {
       // Show drawer screen
@@ -212,6 +224,27 @@ const AppNavigator = () => {
     }
     closeDrawer();
   };
+
+  // Reset drawer state when user changes
+  useEffect(() => {
+    setCurrentDrawerScreen(null);
+  }, [user?.id]);
+
+  // Listen for tab navigation events
+  useEffect(() => {
+    const switchToNotificationsListener = DeviceEventEmitter.addListener(
+      TAB_NAVIGATION_EVENTS.SWITCH_TO_NOTIFICATIONS,
+      () => {
+        console.log('Switching to Notifications tab via event');
+        setActiveTab('Notifications');
+        setCurrentDrawerScreen(null);
+      }
+    );
+
+    return () => {
+      switchToNotificationsListener.remove();
+    };
+  }, []);
 
   // If we're showing a drawer screen, render it
   if (currentDrawerScreen) {
@@ -227,6 +260,7 @@ const AppNavigator = () => {
             onBackPress={() => setCurrentDrawerScreen(null)}
           />
           <CustomDrawer
+            key={`drawer-${user?.id || 'default'}`}
             isVisible={drawerVisible}
             onClose={closeDrawer}
             navigation={{ 
@@ -242,8 +276,12 @@ const AppNavigator = () => {
   // Default: show bottom tabs
   return (
     <View style={{ flex: 1 }}>
-      <BottomTabNavigator />
+      <BottomTabNavigator 
+        key={`tabs-${activeTab}`} 
+        initialRouteName={activeTab} 
+      />
       <CustomDrawer
+        key={`drawer-${user?.id || 'default'}`}
         isVisible={drawerVisible}
         onClose={closeDrawer}
         navigation={{ 
@@ -281,8 +319,9 @@ const createDrawerStyles = (theme) => StyleSheet.create({
   },
   userSection: {
     backgroundColor: theme.primary,
-    padding: 20,
-    paddingTop: 20,
+    padding: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
   },
   userProfile: {
     flexDirection: 'row',
@@ -318,7 +357,7 @@ const createDrawerStyles = (theme) => StyleSheet.create({
   },
   navigationSection: {
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 12,
   },
   navItem: {
     padding: 16,
